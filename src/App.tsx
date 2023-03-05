@@ -1,13 +1,17 @@
 import { useState } from "react";
 import "./App.css";
-import { QrReader } from "react-qr-reader";
+import { QrReader, OnResultFunction, QrReaderProps } from "react-qr-reader";
+
+interface IResult {
+  text: string;
+}
 
 function App() {
-  const [data, setData] = useState("No-result");
+  const [qrCodeProducer, setqrCodeProducer] = useState("No-result");
 
-  function handleResult(result, error) {
+  function handleResult(result: IResult, error: any) {
     if (!!result) {
-      setData(result?.text);
+      setqrCodeProducer(result?.text);
     }
     if (!!error) {
       console.info(error);
@@ -16,12 +20,8 @@ function App() {
 
   return (
     <div className="App">
-      <QrReader
-        className="main"
-        onResult={handleResult}
-        style={{ maxWidth: "100%", width: 460, height: 500 }}
-      />
-      <p>{data}</p>
+      <QrReader className="main" onResult={handleResult} />
+      <p>{qrCodeProducer}</p>
     </div>
   );
 }
